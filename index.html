@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dora Bank of India - Premium Core Portal</title>
+    <style>
+        :root {
+            --primary-blue: #0A192F;
+            --secondary-blue: #172A45;
+            --accent-gold: #F59E0B;
+            --light-bg: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --success-green: #10B981;
+            --danger-red: #EF4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+        }
+
+        .badge {
+            background-color: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 30px;
+            flex: 1;
+            width: 100%;
+        }
+
+        #stickyNotificationBanner {
+            background: #EFF6FF;
+            color: #1E40AF;
+            border-left: 5px solid var(--accent-gold);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-bottom: 25px;
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 12px;
+        }
+
+        .card h3 {
+            margin: 20px 0 15px 0;
+            color: var(--secondary-blue);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .bank-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .bank-table th, .bank-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bank-table th {
+            background-color: #F1F5F9;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .bank-table tbody tr:hover {
+            background-color: #F8FAFC;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #F8FAFC;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+
+        .btn {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #64748B;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .action-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-tab-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .tab-btn {
+            background: #E2E8F0;
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 22px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .metric-box h3 {
+            font-size: 13px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-box p {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .portal-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        .menu-list {
+            list-style: none;
+            position: sticky;
+            top: 40px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: #475569;
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--primary-blue);
+            color: white;
+            border-left-color: var(--accent-gold);
+            border-color: var(--primary-blue);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex; justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .history-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .history-scroll {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 40px;
+            margin-top: auto;
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            font-size: 14px;
+        }
+
+        .footer-col h4 {
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .footer-col p {
+            color: #94A3B8;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DORA BANK OF INDIA</h1>
+        <div id="userBadge" class="hidden">Session: <span class="badge" id="roleDisplay">Admin</span></div>
+    </header>
+
+    <div class="container">
+        
+        <div id="stickyNotificationBanner" class="hidden"></div>
+        
+        <div id="loginScreen" class="card" style="max-width: 450px; margin: 80px auto;">
+            <h2 style="text-align: center;">Core Banking Login</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" class="form-control" placeholder="username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" class="form-control" placeholder="password">
+            </div>
+            <button type="button" class="btn" style="width:100%; margin-top: 10px;" onclick="handleLogin()">Authenticate Terminal</button>
+        </div>
+
+        <div id="mainPortal" class="portal-layout hidden">
+            
+            <aside>
+                <ul class="menu-list">
+                    <li class="menu-item active" id="nav-userEnquiryView" onclick="switchView('userEnquiryView')">User Enquiry Panel</li>
+                    <li class="menu-item" id="nav-registrationView" onclick="switchView('registrationView')">Account Onboarding</li>
+                    <li class="menu-item" id="nav-customerRequestView" onclick="switchView('customerRequestView')">Customer Request Vault</li>
+                    <li class="menu-item" id="nav-counterCashView" onclick="switchView('counterCashView')">Counter Vault Tracker</li>
+                    <li class="menu-item" id="nav-loanIssuanceView" onclick="switchView('loanIssuanceView')">Loan Underwriting Desk</li>
+                    <li class="menu-item" id="nav-metricsView" onclick="switchView('metricsView')">System Analytics</li>
+                    <li class="menu-item" id="nav-managementView" onclick="switchView('managementView')">Compliance Audit</li>
+                    <li class="menu-item btn-secondary" style="color: white; margin-top: 40px; text-align: center;" onclick="logout()">Terminate Session</li>
+                </ul>
+            </aside>
+
+            <main>
+                
+                <div id="userEnquiryView" class="view-section card">
+                    <h2>Account Management & Enquiry</h2>
+                    <div style="background: #F1F5F9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <div class="form-group" style="margin-bottom: 0; display: flex; gap: 15px;">
+                            <input type="text" id="searchAccNum" class="form-control" placeholder="Enter Account Number" maxlength="10">
+                            <button type="button" class="btn" onclick="searchProfile()">Inquire Profile</button>
+                        </div>
+                    </div>
+
+                    <div id="profileSection" class="hidden">
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Primary Account Holder</label>
+                                <input type="text" id="profName" class="form-control editable-field" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Account Reference Identifier</label>
+                                <input type="text" id="profAcc" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Available Clearing Balance (INR)</label>
+                                <input type="text" id="profBal" class="form-control" readonly style="font-weight: 700; color: var(--primary-blue);">
+                            </div>
+                            <div class="form-group">
+                                <label>Registered Mobile Terminal</label>
+                                <input type="text" id="profPhone" class="form-control editable-field" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Operational Transaction Cap (INR)</label>
+                                <input type="text" id="profLimit" class="form-control" readonly value="₹ 5,00,000 (Standard Tier)">
+                            </div>
+                        </div>
+
+                        <hr style="margin: 25px 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                        <h3>Terminal Transaction Execution</h3>
+                        <div class="grid-2" style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label>Transaction Asset Capital (INR)</label>
+                                <input type="number" id="txAmount" class="form-control" placeholder="Enter transaction amount" oninput="suggestDenominations()">
+                            </div>
+                            <div class="form-group">
+                                <label>Vault Mixed Denomination Output Guide</label>
+                                <div id="denomFeedback" style="font-size: 14px; font-weight: 600; color: var(--primary-blue); padding-top: 12px; font-style: normal;">
+                                    Awaiting allocation sequence input parameters.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button type="button" class="btn" style="background-color: var(--success-green);" onclick="executeTransaction('Deposit')">Process Vault Deposit</button>
+                            <button type="button" class="btn" style="background-color: var(--primary-blue);" onclick="executeTransaction('Withdraw')">Disburse Vault Cash</button>
+                        </div>
+
+                        <div class="action-buttons" style="margin-top: 30px; border-top: 1px dashed var(--border-color); padding-top: 25px;">
+                            <button type="button" class="btn btn-secondary" style="background-color: #E2E8F0; color: #0F172A;" onclick="toggleStatus()">Toggle Security Status</button>
+                            <button type="button" class="btn btn-secondary" id="editBtn" onclick="toggleEditMode()">Modify Demographics</button>
+                            <button type="button" class="btn btn-secondary" onclick="executeMutualTransfer()">Interbank Mutual Routing</button>
+                            <button type="button" class="btn btn-secondary" style="background-color: var(--danger-red);" onclick="closeAccount()">Purge Account Record</button>
+                        </div>
+
+                        <div class="history-section">
+                            <h3>Ledger Transaction History</h3>
+                            <div class="history-scroll">
+                                <table class="bank-table" style="margin-top: 0;">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>ACK Code</th>
+                                            <th>Operation</th>
+                                            <th>Capital Flow</th>
+                                            <th>Post Balance</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transactionHistoryTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="registrationView" class="view-section card hidden">
+                    <h2>Account Onboarding Portfolio</h2>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>1. Legal First Name</label>
+                            <input type="text" id="regFirstName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>2. Legal Surname</label>
+                            <input type="text" id="regLastName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>3. Date of Birth</label>
+                            <input type="date" id="regDob" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>4. Mobile Number</label>
+                            <input type="tel" id="regPhone" class="form-control" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label>5. Email Address (Gmail)</label>
+                            <input type="email" id="regEmail" class="form-control" placeholder="example@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label>6. PAN Card Number</label>
+                            <input type="text" id="regPan" class="form-control" maxlength="10" placeholder="ABCDE1234F">
+                        </div>
+                        <div class="form-group">
+                            <label>7. Type of Account</label>
+                            <select id="regAccountType" class="form-control">
+                                <option value="Savings">Savings Account Matrix</option>
+                                <option value="Current">Current Commercial Matrix</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>8. Permanent Residential Address</label>
+                            <input type="text" id="regAddress" class="form-control" placeholder="Full street, city, state mapping">
+                        </div>
+                        <div class="form-group">
+                            <label>9. Nationality</label>
+                            <input type="text" id="regNationality" class="form-control" placeholder="e.g., Indian">
+                        </div>
+                        <div class="form-group">
+                            <label>10. Occupation / Profession</label>
+                            <input type="text" id="regOccupation" class="form-control" placeholder="e.g., Salaried, Business, Student">
+                        </div>
+                        <div class="form-group">
+                            <label>11. Annual Income Range</label>
+                            <select id="regIncomeRange" class="form-control">
+                                <option value="Low">Below ₹5,00,000</option>
+                                <option value="Mid">₹5,00,000 - ₹15,00,000</option>
+                                <option value="High">Above ₹15,00,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>12. Father's Full Name</label>
+                            <input type="text" id="regFatherName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>13. Mother's Maiden Name</label>
+                            <input type="text" id="regMotherName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>14. Marital Status</label>
+                            <select id="regMaritalStatus" class="form-control">
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>15. Tax Residency Status</label>
+                            <input type="text" id="regTaxResidency" class="form-control" value="Resident Indian">
+                        </div>
+                    </div>
+
+                    <h3>Nominee Registry Specifications</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Nominee Legal Full Name</label>
+                            <input type="text" id="regNomineeName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Nominee Mobile Line</label>
+                            <input type="tel" id="regNomineePhone" class="form-control" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Nominee National Identity Verification</label>
+                            <input type="text" id="regNomineeNationalId" class="form-control" placeholder="Identification data mapping reference" maxlength="12">
+                        </div>
+                        <div class="form-group">
+                            <label>Nominee Full Address</label>
+                            <input type="text" id="regNomineeAddress" class="form-control">
+                        </div>
+                    </div>
+                    <button type="button" class="btn" style="margin-top: 15px;" onclick="handleRegistration()">Generate Core Ledger Account</button>
+                </div>
+
+                <div id="customerRequestView" class="view-section card hidden">
+                    <h2>Customer Request Vault</h2>
+                    <div class="toggle-tab-group">
+                        <button type="button" id="reqTabPassbookBtn" class="tab-btn active" onclick="switchRequestSubMode('PASSBOOK')">Passbook Printing</button>
+                        <button type="button" id="reqTabKycBtn" class="tab-btn" onclick="switchRequestSubMode('KYC')">Basic KYC Optimization Registry</button>
+                    </div>
+
+                    <div id="requestPassbookWorkspace">
+                        <div style="background: #F1F5F9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <div class="form-group">
+                                <label>Enter Account Number to Print Passbook</label>
+                                <input type="text" id="passbookAccNum" class="form-control" maxlength="10">
+                            </div>
+                            <button type="button" class="btn" onclick="generatePassbookPreview()">Preview & Print Passbook</button>
+                        </div>
+                    </div>
+
+                    <div id="requestKycWorkspace" class="hidden">
+                        <p style="margin-bottom: 20px; font-style: italic; color: var(--text-muted);">Provide certified profile variables below to update identity flags and maximize transaction limits.</p>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Account Number</label>
+                                <input type="text" id="kycAccNum" class="form-control" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="kycFullName" class="form-control" placeholder="Enter full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile Number</label>
+                                <input type="tel" id="kycPhone" class="form-control" maxlength="10" placeholder="Enter mobile number">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="kycEmail" class="form-control" placeholder="example@gmail.com">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Aadhaar Number</label>
+                                <input type="text" id="kycAadhar" class="form-control" maxlength="12" placeholder="Enter 12-digit Aadhaar number">
+                            </div>
+                        </div>
+                        <button type="button" class="btn" style="margin-top: 15px;" onclick="commitBasicKycOptimization()">Update KYC</button>
+                    </div>
+                </div>
+
+                <div id="counterCashView" class="view-section card hidden">
+                    <h2>Counter Vault Reserves Tracker</h2>
+                    <p style="margin-bottom: 25px; font-style: italic; color: var(--text-muted);">Standard system vault metrics tracking loop physical bank assets:</p>
+                    <div class="grid-5" style="grid-template-columns: repeat(6, 1fr);">
+                        <div class="form-group">
+                            <label>₹2000 Units</label>
+                            <input type="number" id="note2000" class="form-control note-input" value="50" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                        <div class="form-group">
+                            <label>₹1000 Units</label>
+                            <input type="number" id="note1000" class="form-control note-input" value="100" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                        <div class="form-group">
+                            <label>₹500 Units</label>
+                            <input type="number" id="note500" class="form-control note-input" value="200" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                        <div class="form-group">
+                            <label>₹200 Units</label>
+                            <input type="number" id="note200" class="form-control note-input" value="500" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                        <div class="form-group">
+                            <label>₹100 Units</label>
+                            <input type="number" id="note100" class="form-control note-input" value="1000" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                        <div class="form-group">
+                            <label>₹50 Units</label>
+                            <input type="number" id="note50" class="form-control note-input" value="2000" oninput="calculateVaultTotal(); saveVaultToStorage();">
+                        </div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: white; padding: 25px; border-radius: 10px; margin-top: 25px; text-align: center;">
+                        <h3 style="font-weight: 400; color: var(--accent-gold); letter-spacing: 1px;">AGGREGATED TOTAL COUNTER VAULT ASSETS</h3>
+                        <h1 style="color: #FFFFFF; margin-top: 10px; font-size: 36px;" id="vaultTotalDisplay">₹0</h1>
+                    </div>
+                </div>
+
+                <div id="loanIssuanceView" class="view-section card hidden">
+                    <h2>Loan Underwriting Desk</h2>
+                    <div class="toggle-tab-group">
+                        <button type="button" id="loanTabNewBtn" class="tab-btn active" onclick="switchLoanSubMode('NEW')">New Line Underwriting</button>
+                        <button type="button" id="loanTabExistBtn" class="tab-btn" onclick="switchLoanSubMode('EXISTING')">Servicing Portfolio</button>
+                    </div>
+
+                    <div id="newLoanWorkspace">
+                        <h3>Core Structure Settings</h3>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Target Base Account Number (10 Digits)</label>
+                                <input type="text" id="loanAccNum" class="form-control" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Asset Class Loan Structure</label>
+                                <select id="loanType" class="form-control">
+                                    <option value="Home">Home Equity Scheme</option>
+                                    <option value="Gold">Bullion Capital Financing</option>
+                                    <option value="Shop">Enterprise Commercial Debt</option>
+                                    <option value="Property">Commercial Mortgage Instruments</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Evaluated Appraisal Underlay Value (INR)</label>
+                                <input type="number" id="loanPropValue" class="form-control" oninput="autoCalculateEMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>Requested Loan Capital Principal</label>
+                                <input type="number" id="loanAmount" class="form-control" oninput="autoCalculateEMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>Amortization Framework (Monthly EMIs)</label>
+                                <input type="number" id="loanEmiCount" class="form-control" value="60" oninput="autoCalculateEMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>Auto-Calculated Monthly Installment Debt</label>
+                                <input type="text" id="loanCalculatedEmi" class="form-control" style="background: #E2E8F0; font-weight: 700;" readonly>
+                            </div>
+                        </div>
+
+                        <h3>Core Underwriting Metrics (10 Real Banking Elements)</h3>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>1. Co-Applicant Legal Full Name</label>
+                                <input type="text" id="loanCoApplicant" class="form-control" placeholder="Spouse/Business Partner">
+                            </div>
+                            <div class="form-group">
+                                <label>2. Bureau Credit Score (CIBIL)</label>
+                                <input type="number" id="loanCibil" class="form-control" placeholder="300 - 900" min="300" max="900">
+                            </div>
+                            <div class="form-group">
+                                <label>3. Applicant Employment Category</label>
+                                <select id="loanEmpType" class="form-control">
+                                    <option value="Salaried">Salaried Corporate Executive</option>
+                                    <option value="SelfEmployed">Self-Employed Professional / Business</option>
+                                    <option value="Govt">Government Service Sector</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>4. Verified Gross Monthly Income (INR)</label>
+                                <input type="number" id="loanIncome" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>5. Existing Monthly Debt Obligations (FOIR)</label>
+                                <input type="number" id="loanObligations" class="form-control" placeholder="Current total active EMIs">
+                            </div>
+                            <div class="form-group">
+                                <label>6. Requested Moratorium Window (Months)</label>
+                                <input type="number" id="loanMoratorium" class="form-control" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>7. Collateral Deed Registration Number</label>
+                                <input type="text" id="loanCollateralRef" class="form-control" placeholder="REG-VOL-IDX-XXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>8. Mandatory Processing Fee Matrix (INR)</label>
+                                <input type="number" id="loanFee" class="form-control" value="2500">
+                            </div>
+                            <div class="form-group">
+                                <label>9. Credit Shield Asset Insurance Cover</label>
+                                <select id="loanInsurance" class="form-control">
+                                    <option value="OptIn">Opt-In Secure Premium Shield</option>
+                                    <option value="OptOut">Opt-Out Standard Exposure Risk</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>10. Underwritten Capital Disbursement Strategy</label>
+                                <select id="loanDisbMode" class="form-control">
+                                    <option value="DirectTransfer">Direct Electronic Node Settlement</option>
+                                    <option value="ManagerCheque">Manager's Clearing Instrument Demand</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h3>Loan Nominee Security Alignment</h3>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Loan Nominee Full Legal Identity Name</label>
+                                <input type="text" id="loanNomineeName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Loan Nominee Contact Mobile Terminal</label>
+                                <input type="tel" id="loanNomineePhone" class="form-control" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Loan Nominee Permanent Home Address</label>
+                                <input type="text" id="loanNomineeAddress" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Loan Nominee Relationship Matrix</label>
+                                <input type="text" id="loanNomineeRelation" class="form-control" placeholder="e.g., Spouse, Child, Parent">
+                            </div>
+                        </div>
+                        <button type="button" class="btn" style="margin-top: 15px;" onclick="processNewLoanApproval()">Authorize Asset Underwriting</button>
+                    </div>
+
+                    <div id="existingLoanWorkspace" class="hidden">
+                        <div style="background: #F1F5F9; padding: 20px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 15px; align-items: flex-end;">
+                            <div class="form-group" style="margin-bottom:0; flex-grow:1;">
+                                <label>Active Loan ID Token</label>
+                                <input type="text" id="searchLoanId" class="form-control" placeholder="L-XXXX">
+                            </div>
+                            <button type="button" class="btn" onclick="fetchExistingLoanProfile()">Inquire Loan Master</button>
+                        </div>
+
+                        <div id="existingLoanProfileBox" class="hidden">
+                            <div class="grid-3" style="margin-bottom: 20px;">
+                                <div class="metric-box" style="background:#E2E8F0; color:#0F172A; box-shadow:none;">
+                                    <h3 style="color:#475569;">Target Holder</h3>
+                                    <p style="font-size:20px;" id="lblLoanName">-</p>
+                                </div>
+                                <div class="metric-box" style="background:#E2E8F0; color:#0F172A; box-shadow:none;">
+                                    <h3 style="color:#475569;">Linked Core</h3>
+                                    <p style="font-size:20px;" id="lblLoanAcc">-</p>
+                                </div>
+                                <div class="metric-box" style="background:#E2E8F0; color:#0F172A; box-shadow:none;">
+                                    <h3 style="color:#475569;">Remaining Principal Balance</h3>
+                                    <p style="font-size:20px; color:var(--danger-red);" id="lblLoanBal">-</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="max-width: 300px;">
+                                <label>Liquidation Capital Transaction Input</label>
+                                <input type="number" id="loanActionAmount" class="form-control" placeholder="Enter repayment amount">
+                            </div>
+                            <div class="action-buttons">
+                                <button type="button" class="btn" style="background-color:var(--success-green);" onclick="executeLoanMaintenance('REPAY')">Process Recovery Installment</button>
+                                <button type="button" class="btn" style="background-color:var(--danger-red);" onclick="executeLoanMaintenance('CLOSE')">Pre-Close Loan Facility</button>
+                                <button type="button" class="btn btn-secondary" onclick="executeLoanMaintenance('DRAW')">Draw Auxiliary Allocation</button>
+                                <button type="button" class="btn btn-secondary" onclick="executeLoanMaintenance('MUTUAL')">Mutual Transfer to Loan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="metricsView" class="view-section card hidden">
+                    <h2>System Analytics Dashboard</h2>
+                    <div class="grid-3">
+                        <div class="metric-box">
+                            <h3>Total Active Core Ledger Targets</h3>
+                            <p id="metricAccounts">0</p>
+                        </div>
+                        <div class="metric-box">
+                            <h3>Active Chip Tokens Registered</h3>
+                            <p id="metricCards">0</p>
+                        </div>
+                        <div class="metric-box">
+                            <h3>Underwritten Debt Volume Portfolio</h3>
+                            <p id="metricLoans">₹ 0</p>
+                        </div>
+                    </div>
+
+                    <div class="history-section" style="margin-top: 40px; border-top: 1px dashed var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>Active System Base Database Index Ledger</h3>
+                            <button type="button" class="btn btn-secondary" onclick="renderMetricsAccountsTable()">Refresh System Index</button>
+                        </div>
+                        <table class="bank-table">
+                            <thead>
+                                <tr>
+                                    <th>Account Core</th>
+                                    <th>Legal Demographic Name</th>
+                                    <th>Clearing Volume / Balance (INR)</th>
+                                    <th>Communications Link / Target Base</th>
+                                    <th>Operational Status / Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="metricsAccountsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="managementView" class="view-section card hidden">
+                    <h2>Compliance & Executive Audit Controls</h2>
+                    <div class="grid-3" style="margin-bottom: 30px;">
+                        <div class="form-group">
+                            <label>Global System Routing Base Limit (INR)</label>
+                            <input type="number" id="cfgGlobalLimit" class="form-control" value="500000" onchange="alert('Global parameters optimized.')">
+                        </div>
+                        <div class="form-group">
+                            <label>Operational Clearing Processing State Mode</label>
+                            <select class="form-control" onchange="alert('System operating paradigm modified.')">
+                                <option>Standard Validation Mode</option>
+                                <option>Strict Compliance Enforcement</option>
+                                <option>Degraded Fallback Matrix</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="action-buttons" style="border-top:1px solid var(--border-color); padding-top:20px;">
+                        <button type="button" class="btn btn-secondary" onclick="printAuditReport('Daily')">Compile Daily Master Balance Journal</button>
+                        <button type="button" class="btn btn-secondary" onclick="printAuditReport('Loans')">Audit Debt Liability Portfolio</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <div id="vaultModal" class="modal-overlay hidden">
+        <div class="card" style="width: 100%; max-width: 500px; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);">
+            <h2 id="depositModalTitle" style="margin-bottom: 15px;">Vault Validation Sequence</h2>
+            <p id="depositModalTargetFeedback" style="margin-bottom: 25px; color: var(--text-muted); font-size:14px; font-style:italic;"></p>
+            
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹2000 ×</label><input type="number" id="dep2000" class="form-control" value="0" style="padding: 8px 12px;"></div>
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹1000 ×</label><input type="number" id="dep1000" class="form-control" value="0" style="padding: 8px 12px;"></div>
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹500 ×</label><input type="number" id="dep500" class="form-control" value="0" style="padding: 8px 12px;"></div>
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹200 ×</label><input type="number" id="dep200" class="form-control" value="0" style="padding: 8px 12px;"></div>
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹100 ×</label><input type="number" id="dep100" class="form-control" value="0" style="padding: 8px 12px;"></div>
+                <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-bottom: 12px;"><label style="width:80px; font-weight:600;">₹50 ×</label><input type="number" id="dep50" class="form-control" value="0" style="padding: 8px 12px;"></div>
+            </div>
+            <div class="action-buttons" style="margin-top: 25px; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="closeDepositModal()">Abort Event</button>
+                <button type="button" class="btn" style="background-color: var(--success-green);" onclick="commitDepositWithVaultValidation()">Commit Ledger Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Core Framework</h4>
+                <p>Dora Bank of India Executive Node System Terminal v4.02 Enterprise Release Edition Framework.</p>
+            </div>
+            <div class="footer-col">
+                <h4>System Properties</h4>
+                <p>Data Isolation: Enabled</p>
+                <p>Node Replication: Active</p>
+            </div>
+            <div class="footer-col">
+                <h4>Regulatory Compliance</h4>
+                <p>RBI Core Guidelines Met</p>
+                <p>Automated Cleared Balances</p>
+            </div>
+            <div class="footer-col">
+                <h4>Operator Metrics</h4>
+                <p>Session ID: DB-ACK-88492</p>
+                <p>Status: Authenticated</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const initialAccounts = {
+            "2512959873": { name: "Vishwak p", phone: "8125332295", balance: 118500, status: "Active", history: [] },
+            "2926467339": { name: "Yashwanth kumar A", phone: "9381564031", balance: 85250, status: "Active", history: [] },
+            "3772831154": { name: "Sai kumar N", phone: "9494952295", balance: 62750, status: "Active", history: [] }
+        };
+        const initialLoans = {
+            "L-9901": { account: "2512959873", name: "Vishwak p", type: "Home", amount: 4500000, emis: 120, status: "Active" }
+        };
+
+        let mockAccounts = {};
+        let mockLoans = {};
+        let currentRole = "";
+        let isEditMode = false;
+        let currentRequestSubMode = "PASSBOOK";
+        let currentLoanSubMode = "NEW";
+        let activeLoadedLoanId = null;
+        let activeDepositContext = null;
+
+        function generate3DigitAck() {
+            return `ACK-${Math.floor(100 + Math.random() * 900)}`;
+        }
+
+        function suggestDenominations() {
+            const val = parseInt(document.getElementById('txAmount').value);
+            const feedback = document.getElementById('denomFeedback');
+
+            if (!val || val <= 0) {
+                feedback.innerText = "Awaiting allocation sequence input parameters.";
+                return;
+            }
+
+            let rem = val;
+            let parts = [];
+
+            const notes = [2000, 1000, 500, 200, 100, 50];
+            for (let n of notes) {
+                if (rem >= n) {
+                    let count = Math.floor(rem / n);
+                    rem = rem % n;
+                    parts.push(`${n}*${count}`);
+                }
+            }
+
+            if (rem > 0) {
+                parts.push(`(Remainder: ₹${rem})`);
+            }
+
+            feedback.innerText = "Suggested Denominations: " + parts.join(', ');
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('bank_mockAccounts', JSON.stringify(mockAccounts));
+            localStorage.setItem('bank_mockLoans', JSON.stringify(mockLoans));
+        }
+
+        function loadVaultFromStorage() {
+            const accs = localStorage.getItem('bank_mockAccounts');
+            const lns = localStorage.getItem('bank_mockLoans');
+
+            if(accs) mockAccounts = JSON.parse(accs);
+            else { mockAccounts = initialAccounts; saveToStorage(); }
+
+            if(lns) mockLoans = JSON.parse(lns);
+            else { mockLoans = initialLoans; saveToStorage(); }
+
+            const v2k = localStorage.getItem('v_2000') || "50";
+            const v1k = localStorage.getItem('v_1000') || "100";
+            const v500 = localStorage.getItem('v_500') || "200";
+            const v200 = localStorage.getItem('v_200') || "500";
+            const v100 = localStorage.getItem('v_100') || "1000";
+            const v50 = localStorage.getItem('v_50') || "2000";
+
+            document.getElementById('note2000').value = v2k;
+            document.getElementById('note1000').value = v1k;
+            document.getElementById('note500').value = v500;
+            document.getElementById('note200').value = v200;
+            document.getElementById('note100').value = v100;
+            document.getElementById('note50').value = v50;
+
+            calculateVaultTotal();
+            updateMetricsDisplay();
+        }
+
+        function saveVaultToStorage() {
+            localStorage.setItem('v_2000', document.getElementById('note2000').value);
+            localStorage.setItem('v_1000', document.getElementById('note1000').value);
+            localStorage.setItem('v_500', document.getElementById('note500').value);
+            localStorage.setItem('v_200', document.getElementById('note200').value);
+            localStorage.setItem('v_100', document.getElementById('note100').value);
+            localStorage.setItem('v_50', document.getElementById('note50').value);
+        }
+
+        function deployTopPageBanner(htmlContent) {
+            const b = document.getElementById('stickyNotificationBanner');
+            b.innerHTML = htmlContent;
+            b.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleLogin() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            if((u === 'admin' && p === 'admin') || (u === 'clerk' && p === 'clerk')) {
+                currentRole = u;
+                document.getElementById('roleDisplay').innerText = currentRole === 'admin' ? "System Admin Terminal" : "Operational Clerk Mode";
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainPortal').classList.remove('hidden');
+                document.getElementById('userBadge').classList.remove('hidden');
+                calculateVaultTotal();
+                updateMetricsDisplay();
+            } else {
+                alert("Authentication Failure: Handshake rejected by host interface.");
+            }
+        }
+
+        function logout() {
+            currentRole = "";
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainPortal').classList.add('hidden');
+            document.getElementById('userBadge').classList.add('hidden');
+            document.getElementById('stickyNotificationBanner').classList.add('hidden');
+        }
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            document.getElementById(viewId).classList.remove('hidden');
+            document.getElementById('nav-' + viewId).classList.add('active');
+        }
+
+        function searchProfile() {
+            const num = document.getElementById('searchAccNum').value.trim();
+            if(!num || !mockAccounts[num]) {
+                alert("Lookup Error: Identity record parameters unmapped inside master core database indexes.");
+                return;
+            }
+            const acct = mockAccounts[num];
+            document.getElementById('profName').value = acct.name;
+            document.getElementById('profAcc').value = num;
+            document.getElementById('profBal').value = `₹ ${acct.balance.toLocaleString('en-IN')}`;
+            document.getElementById('profPhone').value = acct.phone;
+            document.getElementById('profileSection').classList.remove('hidden');
+            isEditMode = false;
+            setFieldsReadOnly(true);
+            renderTransactionHistory(num);
+        }
+
+        function setFieldsReadOnly(isTrue) {
+            document.querySelectorAll('.editable-field').forEach(field => {
+                if(isTrue) field.setAttribute('readonly', 'true');
+                else field.removeAttribute('readonly');
+            });
+        }
+
+        function toggleEditMode() {
+            if(currentRole !== 'admin') return alert('Access Denied: Level 2 authorization matrix needed.');
+            isEditMode = !isEditMode;
+            const btn = document.getElementById('editBtn');
+            if(isEditMode) {
+                btn.innerText = "Commit Variable Variables";
+                btn.style.backgroundColor = "var(--success-green)";
+                setFieldsReadOnly(false);
+            } else {
+                const accNum = document.getElementById('profAcc').value;
+                mockAccounts[accNum].name = document.getElementById('profName').value.trim();
+                mockAccounts[accNum].phone = document.getElementById('profPhone').value.trim();
+                saveToStorage();
+                btn.innerText = "Modify Demographics";
+                btn.style.backgroundColor = "#64748B";
+                setFieldsReadOnly(true);
+                alert("Database modified parameters saved.");
+            }
+        }
+
+        function toggleStatus() {
+            const accNum = document.getElementById('profAcc').value;
+            const current = mockAccounts[accNum].status;
+            mockAccounts[accNum].status = current === 'Active' ? 'Blocked' : 'Active';
+            saveToStorage();
+            alert(`Account tracking profile status updated to: ${mockAccounts[accNum].status}`);
+        }
+
+        function closeAccount() {
+            if(currentRole !== 'admin') return alert('Forbidden Paradigm: Security Level 3 clearance required.');
+            if(confirm("Confirm irrevocable core ledger account destruction step?")) {
+                const accNum = document.getElementById('profAcc').value;
+                delete mockAccounts[accNum];
+                saveToStorage();
+                document.getElementById('profileSection').classList.add('hidden');
+                document.getElementById('searchAccNum').value = '';
+                updateMetricsDisplay();
+                alert("Core identity row mapping purged permanently.");
+            }
+        }
+
+        function executeTransaction(type) {
+            const accNum = document.getElementById('profAcc').value;
+            const amount = parseInt(document.getElementById('txAmount').value);
+            if(!amount || amount <= 0) return alert("Validation Mismatch: Non-zero positive values demanded.");
+
+            if(type === 'Withdraw') {
+                if(mockAccounts[accNum].balance < amount) return alert("Execution Aborted: Insufficient clearing system assets.");
+                mockAccounts[accNum].balance -= amount;
+                
+                const ackNum = generate3DigitAck();
+                const denomGuide = document.getElementById('denomFeedback').innerText;
+                
+                logLocalHistory(accNum, "COUNTER DISBURSEMENT", `-₹ ${amount.toLocaleString('en-IN')}`, mockAccounts[accNum].balance, ackNum);
+                document.getElementById('profBal').value = `₹ ${mockAccounts[accNum].balance.toLocaleString('en-IN')}`;
+                document.getElementById('txAmount').value = '';
+                document.getElementById('denomFeedback').innerText = "Awaiting allocation sequence input parameters.";
+                saveToStorage();
+                
+                alert(`Vault Withdrawal Successful!\n\nAcknowledgment Code: ${ackNum}\nAmount: ₹${amount.toLocaleString('en-IN')}\n${denomGuide}`);
+                renderTransactionHistory(accNum);
+            } else {
+                activeDepositContext = { account: accNum, amount: amount };
+                document.getElementById('depositModalTitle').innerText = "Counter Deposit Processing Matrix";
+                document.getElementById('depositModalTargetFeedback').innerText = `Validating physical token variables mapping to target volume: ₹${amount.toLocaleString('en-IN')}`;
+                document.getElementById('dep2000').value = 0;
+                document.getElementById('dep1000').value = 0;
+                document.getElementById('dep500').value = 0;
+                document.getElementById('dep200').value = 0;
+                document.getElementById('dep100').value = 0;
+                document.getElementById('dep50').value = 0;
+                document.getElementById('vaultModal').classList.remove('hidden');
+            }
+        }
+
+        function closeDepositModal() {
+            document.getElementById('vaultModal').classList.add('hidden');
+            activeDepositContext = null;
+        }
+
+        function commitDepositWithVaultValidation() {
+            const n2k = parseInt(document.getElementById('dep2000').value) || 0;
+            const n1k = parseInt(document.getElementById('dep1000').value) || 0;
+            const n500 = parseInt(document.getElementById('dep500').value) || 0;
+            const n200 = parseInt(document.getElementById('dep200').value) || 0;
+            const n100 = parseInt(document.getElementById('dep100').value) || 0;
+            const n50 = parseInt(document.getElementById('dep50').value) || 0;
+            const inputSum = (n2k * 2000) + (n1k * 1000) + (n500 * 500) + (n200 * 200) + (n100 * 100) + (n50 * 50);
+
+            if(inputSum !== activeDepositContext.amount) {
+                alert(`Denomination Matrix Variance Mismatch: Physical input sum (₹${inputSum}) must match declared asset target parameter (₹${activeDepositContext.amount}).`);
+                return;
+            }
+
+            document.getElementById('note2000').value = parseInt(document.getElementById('note2000').value) + n2k;
+            document.getElementById('note1000').value = parseInt(document.getElementById('note1000').value) + n1k;
+            document.getElementById('note500').value = parseInt(document.getElementById('note500').value) + n500;
+            document.getElementById('note200').value = parseInt(document.getElementById('note200').value) + n200;
+            document.getElementById('note100').value = parseInt(document.getElementById('note100').value) + n100;
+            document.getElementById('note50').value = parseInt(document.getElementById('note50').value) + n50;
+
+            const accNum = activeDepositContext.account;
+            const ackNum = generate3DigitAck();
+            
+            mockAccounts[accNum].balance += activeDepositContext.amount;
+            logLocalHistory(accNum, "COUNTER DEPOSIT", `+₹ ${activeDepositContext.amount.toLocaleString('en-IN')}`, mockAccounts[accNum].balance, ackNum);
+
+            document.getElementById('profBal').value = `₹ ${mockAccounts[accNum].balance.toLocaleString('en-IN')}`;
+            document.getElementById('txAmount').value = '';
+            document.getElementById('denomFeedback').innerText = "Awaiting allocation sequence input parameters.";
+
+            saveVaultToStorage();
+            calculateVaultTotal();
+            saveToStorage();
+            closeDepositModal();
+            alert(`Deposit Successful!\n\nAcknowledgment Code: ${ackNum}\nAmount Deposited: ₹${activeDepositContext.amount.toLocaleString('en-IN')}`);
+            renderTransactionHistory(accNum);
+        }
+
+        function executeMutualTransfer() {
+            const sNum = document.getElementById('profAcc').value;
+            const target = prompt("Provide 10-digit interbank system destination routing core key profile:");
+            if(!target) return;
+            if(target.trim() === sNum) return alert("System Exception: Loopback routing profiles rejected.");
+            if(!mockAccounts[target.trim()]) return alert("Error: Target ledger node key mapping mismatch.");
+
+            const amount = parseInt(prompt(`Declare routing volume capital (Available: ₹${mockAccounts[sNum].balance.toLocaleString('en-IN')}):`));
+            if(!amount || amount <= 0) return alert("Aborted: Faulty numerical expression.");
+            if(mockAccounts[sNum].balance < amount) return alert("Aborted: Balance asset protection constraint triggered.");
+
+            const ackCode = generate3DigitAck();
+
+            mockAccounts[sNum].balance -= amount;
+            logLocalHistory(sNum, `MUTUAL ROUTING TO ${target}`, `-₹ ${amount.toLocaleString('en-IN')}`, mockAccounts[sNum].balance, ackCode);
+
+            mockAccounts[target.trim()].balance += amount;
+            logLocalHistory(target.trim(), `MUTUAL ROUTING FROM ${sNum}`, `+₹ ${amount.toLocaleString('en-IN')}`, mockAccounts[target.trim()].balance, ackCode);
+
+            document.getElementById('profBal').value = `₹ ${mockAccounts[sNum].balance.toLocaleString('en-IN')}`;
+            saveToStorage();
+            alert(`Asynchronous clearing complete.\nAcknowledgment Code: ${ackCode}`);
+            renderTransactionHistory(sNum);
+        }
+
+        function logLocalHistory(acc, op, flow, post, forceAck) {
+            if(!mockAccounts[acc].history) mockAccounts[acc].history = [];
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            const ackCode = forceAck || generate3DigitAck();
+            mockAccounts[acc].history.push({
+                timestamp: timestamp,
+                ack: ackCode,
+                op: op,
+                flow: flow,
+                post: `₹ ${post.toLocaleString('en-IN')}`,
+                st: "VERIFIED"
+            });
+        }
+
+        function renderTransactionHistory(accNum) {
+            const tbody = document.getElementById('transactionHistoryTableBody');
+            tbody.innerHTML = '';
+            const historyList = mockAccounts[accNum].history || [];
+            if(historyList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan='6' style='text-align:center; color:var(--text-muted);'>No archival traces inside log index.</td></tr>`;
+                return;
+            }
+            historyList.forEach(row => {
+                tbody.innerHTML += `<tr>
+                    <td>${row.timestamp}</td>
+                    <td>${row.ack}</td>
+                    <td>${row.op}</td>
+                    <td>${row.flow}</td>
+                    <td>${row.post}</td>
+                    <td><span class='badge' style='background:#10B981; color:white;'>${row.st}</span></td>
+                </tr>`;
+            });
+        }
+
+        function handleRegistration() {
+            const first = document.getElementById('regFirstName').value.trim();
+            const last = document.getElementById('regLastName').value.trim();
+            const dob = document.getElementById('regDob').value;
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const address = document.getElementById('regAddress').value.trim();
+            const type = document.getElementById('regAccountType').value;
+            const nationality = document.getElementById('regNationality').value.trim();
+            const occupation = document.getElementById('regOccupation').value.trim();
+            const fatherName = document.getElementById('regFatherName').value.trim();
+            const motherName = document.getElementById('regMotherName').value.trim();
+
+            if(!first || !last || !dob || phone.length !== 10 || !email.includes('@') || !address || !nationality || !occupation || !fatherName || !motherName) {
+                alert("Validation Exception: Please fill in all 15 onboarding fields correctly.");
+                return;
+            }
+
+            const nextId = Math.floor(4000000000 + Math.random() * 99999999);
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            const ackCode = generate3DigitAck();
+
+            mockAccounts[nextId] = {
+                name: `${first} ${last}`,
+                phone: phone,
+                email: email,
+                address: address,
+                type: type,
+                pan: document.getElementById('regPan').value.trim() || "N/A",
+                balance: 0,
+                nominee: {
+                    name: document.getElementById('regNomineeName').value.trim() || "Unspecified",
+                    phone: document.getElementById('regNomineePhone').value.trim() || "Unspecified",
+                    address: document.getElementById('regNomineeAddress').value.trim() || "Unspecified"
+                },
+                status: "Active",
+                history: [{
+                    timestamp: timestamp,
+                    ack: ackCode,
+                    op: "INITIAL SYSTEM ACCOUNT RECORD GENERATION",
+                    flow: "₹ 0",
+                    post: "₹ 0",
+                    st: "VERIFIED"
+                }]
+            };
+
+            saveToStorage();
+            deployTopPageBanner(`<h3>🎉 Core Ledger Account Success Generation Index Portfolio Passed</h3> <p>A new secure isolated profile frame mapped. Generated Master Identification Account Handle Code: <strong>${nextId}</strong> | Acknowledgment Code: <strong>${ackCode}</strong></p>`);
+            
+            document.getElementById('regFirstName').value = '';
+            document.getElementById('regLastName').value = '';
+            document.getElementById('regDob').value = '';
+            document.getElementById('regPhone').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPan').value = '';
+            document.getElementById('regAddress').value = '';
+            document.getElementById('regNationality').value = '';
+            document.getElementById('regOccupation').value = '';
+            document.getElementById('regFatherName').value = '';
+            document.getElementById('regMotherName').value = '';
+            document.getElementById('regNomineeName').value = '';
+            document.getElementById('regNomineePhone').value = '';
+            document.getElementById('regNomineeNationalId').value = '';
+            document.getElementById('regNomineeAddress').value = '';
+            updateMetricsDisplay();
+        }
+
+        function switchRequestSubMode(mode) {
+            currentRequestSubMode = mode;
+            document.getElementById('reqTabPassbookBtn').classList.remove('active');
+            document.getElementById('reqTabKycBtn').classList.remove('active');
+            document.getElementById('requestPassbookWorkspace').classList.add('hidden');
+            document.getElementById('requestKycWorkspace').classList.add('hidden');
+
+            if(mode === 'PASSBOOK') {
+                document.getElementById('reqTabPassbookBtn').classList.add('active');
+                document.getElementById('requestPassbookWorkspace').classList.remove('hidden');
+            } else {
+                document.getElementById('reqTabKycBtn').classList.add('active');
+                document.getElementById('requestKycWorkspace').classList.remove('hidden');
+            }
+        }
+
+        function generatePassbookPreview() {
+            const acc = document.getElementById('passbookAccNum').value.trim();
+            if (!mockAccounts[acc]) {
+                alert("Error: Account not found in master database.");
+                return;
+            }
+            const acct = mockAccounts[acc];
+
+            const win = window.open("", "_blank", "width=800,height=500");
+            win.document.write(`
+                <html><head><title>Passbook - ${acc}</title>
+                <style>
+                    body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+                    .passbook-card { width: 700px; border: 2px solid #333; padding: 20px; position: relative; }
+                    .header { border-bottom: 2px solid #0055aa; margin-bottom: 20px; color: #0055aa; font-weight: bold; font-size: 24px; }
+                    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+                    .field { margin-bottom: 10px; }
+                    .label { font-weight: bold; }
+                    .photo-box { width: 100px; height: 120px; border: 1px solid #000; position: absolute; right: 20px; top: 80px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; }
+                </style>
+                </head><body>
+                <div class="passbook-card">
+                    <div class="header">DORA BANK OF INDIA</div>
+                    <div class="photo-box">Photo Placeholder</div>
+                    <div class="grid">
+                        <div class="field"><span class="label">Account Number:</span> ${acc}</div>
+                        <div class="field"><span class="label">Opening Date:</span> ${new Date().toLocaleDateString()}</div>
+                        <div class="field"><span class="label">Customer Name:</span> ${acct.name}</div>
+                        <div class="field"><span class="label">Phone:</span> ${acct.phone}</div>
+                        <div class="field"><span class="label">Balance:</span> ₹ ${acct.balance.toLocaleString('en-IN')}</div>
+                        <div class="field"><span class="label">Status:</span> ${acct.status}</div>
+                    </div>
+                    <button onclick="window.print()" style="margin-top:20px; cursor:pointer;">Download/Print PDF</button>
+                </div>
+                </body></html>
+            `);
+            win.document.close();
+        }
+
+        function commitBasicKycOptimization() {
+            const acc = document.getElementById('kycAccNum').value.trim();
+            const name = document.getElementById('kycFullName').value.trim();
+            const phone = document.getElementById('kycPhone').value.trim();
+            const email = document.getElementById('kycEmail').value.trim();
+            const aadhar = document.getElementById('kycAadhar').value.trim();
+
+            if(!mockAccounts[acc] || !name || phone.length !== 10 || !email.includes('@') || aadhar.length !== 12) {
+                alert("Validation Error: Please complete all KYC fields correctly (10-digit mobile, valid email, 12-digit Aadhaar).");
+                return;
+            }
+
+            const ackCode = generate3DigitAck();
+
+            mockAccounts[acc].name = name;
+            mockAccounts[acc].phone = phone;
+            mockAccounts[acc].email = email;
+
+            logLocalHistory(acc, "BASIC KYC OPTIMIZATION RECORDED", "₹ 0", mockAccounts[acc].balance, ackCode);
+
+            saveToStorage();
+            alert(`KYC update successful!\n\nAcknowledgment Code: ${ackCode}\nAccount identity parameters finalized.`);
+
+            document.getElementById('kycAccNum').value = '';
+            document.getElementById('kycFullName').value = '';
+            document.getElementById('kycPhone').value = '';
+            document.getElementById('kycEmail').value = '';
+            document.getElementById('kycAadhar').value = '';
+        }
+
+        function calculateVaultTotal() {
+            const n2k = parseInt(document.getElementById('note2000').value) || 0;
+            const n1k = parseInt(document.getElementById('note1000').value) || 0;
+            const n500 = parseInt(document.getElementById('note500').value) || 0;
+            const n200 = parseInt(document.getElementById('note200').value) || 0;
+            const n100 = parseInt(document.getElementById('note100').value) || 0;
+            const n50 = parseInt(document.getElementById('note50').value) || 0;
+            const grandTotal = (n2k * 2000) + (n1k * 1000) + (n500 * 500) + (n200 * 200) + (n100 * 100) + (n50 * 50);
+            document.getElementById('vaultTotalDisplay').innerText = `₹ ${grandTotal.toLocaleString('en-IN')}`;
+        }
+
+        function switchLoanSubMode(mode) {
+            currentLoanSubMode = mode;
+            document.getElementById('loanTabNewBtn').classList.remove('active');
+            document.getElementById('loanTabExistBtn').classList.remove('active');
+            document.getElementById('newLoanWorkspace').classList.add('hidden');
+            document.getElementById('existingLoanWorkspace').classList.add('hidden');
+
+            if(mode === 'NEW') {
+                document.getElementById('loanTabNewBtn').classList.add('active');
+                document.getElementById('newLoanWorkspace').classList.remove('hidden');
+            } else {
+                document.getElementById('loanTabExistBtn').classList.add('active');
+                document.getElementById('existingLoanWorkspace').classList.remove('hidden');
+            }
+        }
+
+        function autoCalculateEMI() {
+            const amt = parseInt(document.getElementById('loanAmount').value) || 0;
+            const emis = parseInt(document.getElementById('loanEmiCount').value) || 1;
+            const monthlyPrincipal = amt / emis;
+            const estimatedInterest = (amt * 0.085) / 12;
+            const totalEmi = Math.round(monthlyPrincipal + estimatedInterest);
+            document.getElementById('loanCalculatedEmi').value = `₹ ${totalEmi.toLocaleString('en-IN')} / Month`;
+        }
+
+        function processNewLoanApproval() {
+            const acc = document.getElementById('loanAccNum').value.trim();
+            const type = document.getElementById('loanType').value;
+            const pVal = parseInt(document.getElementById('loanPropValue').value);
+            const amt = parseInt(document.getElementById('loanAmount').value);
+            const emis = parseInt(document.getElementById('loanEmiCount').value);
+
+            if(!mockAccounts[acc] || isNaN(pVal) || isNaN(amt) || amt <= 0 || isNaN(emis)) {
+                alert("Underwriting Exception: Structured application parameters verification metrics broken.");
+                return;
+            }
+
+            const newLId = `L-${Math.floor(8000 + Math.random() * 1999)}`;
+            mockLoans[newLId] = {
+                account: acc,
+                name: mockAccounts[acc].name,
+                type: type,
+                amount: amt,
+                emis: emis,
+                status: "Active"
+            };
+
+            saveToStorage();
+            updateMetricsDisplay();
+            alert(`Asset underwriting process accepted. Authorized Line Account Identifier Code: ${newLId}`);
+            document.getElementById('loanAccNum').value = '';
+            document.getElementById('loanPropValue').value = '';
+            document.getElementById('loanAmount').value = '';
+        }
+
+        function fetchExistingLoanProfile() {
+            const lid = document.getElementById('searchLoanId').value.trim();
+            if(!mockLoans[lid]) {
+                alert("Search Miss: Requested Line Token missing inside system memory registries.");
+                return;
+            }
+            activeLoadedLoanId = lid;
+            const loan = mockLoans[lid];
+            document.getElementById('lblLoanName').innerText = loan.name;
+            document.getElementById('lblLoanAcc').innerText = loan.account;
+            document.getElementById('lblLoanBal').innerText = `₹ ${loan.amount.toLocaleString('en-IN')}`;
+            document.getElementById('existingLoanProfileBox').classList.remove('hidden');
+        }
+
+        function executeLoanMaintenance(actionType) {
+            const val = parseInt(document.getElementById('loanActionAmount').value) || 0;
+            if(actionType !== 'CLOSE' && actionType !== 'MUTUAL' && val <= 0) return alert("Validation error: Positive amount parameter demanded.");
+            const loan = mockLoans[activeLoadedLoanId];
+
+            if(actionType === 'REPAY') {
+                if(loan.amount < val) return alert("Repayment overflow limits tracking indicators.");
+                loan.amount -= val;
+                alert(`Installment journal transaction processed. Liability exposure lowered.`);
+                document.getElementById('loanActionAmount').value = '';
+            } else if(actionType === 'DRAW') {
+                loan.amount += val;
+                alert(`Auxiliary allocation draw passed. Ledger debit variable updated.`);
+            } else if(actionType === 'MUTUAL') {
+                const sNum = prompt("Provide 10-digit primary source account number to route capital from:");
+                if(!sNum) return;
+                if(!mockAccounts[sNum.trim()]) return alert("Error: Source ledger node key mapping mismatch.");
+                
+                const sourceAcc = sNum.trim();
+                const amount = parseInt(prompt(`Declare transfer volume capital (Available: ₹${mockAccounts[sourceAcc].balance.toLocaleString('en-IN')}):`));
+                if(!amount || amount <= 0) return alert("Aborted: Faulty numerical expression.");
+                if(mockAccounts[sourceAcc].balance < amount) return alert("Aborted: Source account balance asset protection constraint triggered.");
+                if(loan.amount < amount) return alert("Aborted: Transfer amount exceeds the remaining loan balance debt.");
+
+                const ackCode = generate3DigitAck();
+
+                mockAccounts[sourceAcc].balance -= amount;
+                logLocalHistory(sourceAcc, `MUTUAL LOAN DEBT ROUTING TO ${activeLoadedLoanId}`, `-₹ ${amount.toLocaleString('en-IN')}`, mockAccounts[sourceAcc].balance, ackCode);
+
+                loan.amount -= amount;
+                alert(`Asynchronous loan liquidation clearing complete.\nAcknowledgment Code: ${ackCode}`);
+            } else if(actionType === 'CLOSE') {
+                if(loan.amount > 0) {
+                    alert(`Pre-closure blocked: residual clearing balances tracked inside principal frame: ₹${loan.amount}`);
+                    return;
+                }
+                delete mockLoans[activeLoadedLoanId];
+                document.getElementById('existingLoanProfileBox').classList.add('hidden');
+                alert(`Escrow tracking purge execution complete.`);
+            }
+
+            saveToStorage();
+            if(mockLoans[activeLoadedLoanId]) {
+                document.getElementById('lblLoanBal').innerText = `₹ ${loan.amount.toLocaleString('en-IN')}`;
+            }
+            updateMetricsDisplay();
+        }
+
+        function updateMetricsDisplay() {
+            document.getElementById('metricAccounts').innerText = Object.keys(mockAccounts).length;
+            document.getElementById('metricCards').innerText = Object.keys(mockAccounts).length * 2 - 1;
+            let sumLoans = 0;
+            Object.values(mockLoans).forEach(l => sumLoans += l.amount);
+            document.getElementById('metricLoans').innerText = `₹ ${sumLoans.toLocaleString('en-IN')}`;
+        }
+
+        function renderMetricsAccountsTable() {
+            const tbody = document.getElementById('metricsAccountsTableBody');
+            tbody.innerHTML = '';
+            Object.entries(mockAccounts).forEach(([acc, item]) => {
+                tbody.innerHTML += `<tr>
+                    <td><strong>${acc}</strong></td>
+                    <td>${item.name}</td>
+                    <td>₹ ${item.balance.toLocaleString('en-IN')}</td>
+                    <td>+91 ${item.phone}</td>
+                    <td><span class='badge' style='background:${item.status==='Active'?'#10B981':'#EF4444'}; color:white;'>${item.status}</span></td>
+                </tr>`;
+            });
+        }
+
+        function printAuditReport(type) {
+            alert("Generating verification ledger. Data stream routed to printer interface.");
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadVaultFromStorage();
+        });
+    </script>
+</body>
+</html>
