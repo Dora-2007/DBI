@@ -317,6 +317,15 @@
             border-radius: 8px;
         }
 
+        .mobile-photo-container {
+            border: 2px dashed var(--accent-gold);
+            background: #FFFBEB;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         footer {
             background-color: var(--primary-blue);
             color: white;
@@ -361,6 +370,11 @@
         
         <div id="loginScreen" class="card" style="max-width: 450px; margin: 80px auto;">
             <h2 style="text-align: center;">Core Banking Login</h2>
+            <div style="background: #F1F5F9; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: var(--text-muted);">
+                <strong>Credentials:</strong><br>
+                • Clerk: <code>clerk</code> / <code>clerk</code><br>
+                • Admin: <code>admin</code> / <code>admin</code>
+            </div>
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" id="username" class="form-control" placeholder="username">
@@ -375,14 +389,15 @@
         <div id="mainPortal" class="portal-layout hidden">
             
             <aside>
-                <ul class="menu-list">
+                <ul class="menu-list" id="sidebarNavList">
                     <li class="menu-item active" id="nav-userEnquiryView" onclick="switchView('userEnquiryView')">User Enquiry Panel</li>
-                    <li class="menu-item" id="nav-registrationView" onclick="switchView('registrationView')">Account Onboarding</li>
-                    <li class="menu-item" id="nav-customerRequestView" onclick="switchView('customerRequestView')">Customer Request Vault</li>
-                    <li class="menu-item" id="nav-counterCashView" onclick="switchView('counterCashView')">Counter Vault Tracker</li>
-                    <li class="menu-item" id="nav-loanIssuanceView" onclick="switchView('loanIssuanceView')">Loan Underwriting Desk</li>
-                    <li class="menu-item" id="nav-metricsView" onclick="switchView('metricsView')">System Analytics</li>
-                    <li class="menu-item" id="nav-managementView" onclick="switchView('managementView')">Compliance Audit</li>
+                    <li class="menu-item clerk-only" id="nav-registrationView" onclick="switchView('registrationView')">Account Onboarding</li>
+                    <li class="menu-item clerk-only" id="nav-customerRequestView" onclick="switchView('customerRequestView')">Customer Request Vault</li>
+                    <li class="menu-item clerk-only" id="nav-counterCashView" onclick="switchView('counterCashView')">Counter Vault Tracker</li>
+                    <li class="menu-item admin-only hidden" id="nav-approvalQueueView" onclick="switchView('approvalQueueView')">Pending Approvals Queue</li>
+                    <li class="menu-item admin-only hidden" id="nav-loanIssuanceView" onclick="switchView('loanIssuanceView')">Loan Underwriting Desk</li>
+                    <li class="menu-item admin-only hidden" id="nav-metricsView" onclick="switchView('metricsView')">System Analytics</li>
+                    <li class="menu-item admin-only hidden" id="nav-managementView" onclick="switchView('managementView')">Compliance Audit</li>
                     <li class="menu-item btn-secondary" style="color: white; margin-top: 40px; text-align: center;" onclick="logout()">Terminate Session</li>
                 </ul>
             </aside>
@@ -399,26 +414,31 @@
                     </div>
 
                     <div id="profileSection" class="hidden">
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Primary Account Holder</label>
-                                <input type="text" id="profName" class="form-control editable-field" readonly>
+                        <div style="display: flex; gap: 30px; align-items: flex-start;">
+                            <div id="profilePhotoContainer" style="width: 130px; height: 160px; border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: var(--text-muted);">
+                                No Photo Captured
                             </div>
-                            <div class="form-group">
-                                <label>Account Reference Identifier</label>
-                                <input type="text" id="profAcc" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Available Clearing Balance (INR)</label>
-                                <input type="text" id="profBal" class="form-control" readonly style="font-weight: 700; color: var(--primary-blue);">
-                            </div>
-                            <div class="form-group">
-                                <label>Registered Mobile Terminal</label>
-                                <input type="text" id="profPhone" class="form-control editable-field" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Operational Transaction Cap (INR)</label>
-                                <input type="text" id="profLimit" class="form-control" readonly value="₹ 5,00,000 (Standard Tier)">
+                            <div class="grid-2" style="flex-grow: 1;">
+                                <div class="form-group">
+                                    <label>Primary Account Holder</label>
+                                    <input type="text" id="profName" class="form-control editable-field" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Reference Identifier</label>
+                                    <input type="text" id="profAcc" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Available Clearing Balance (INR)</label>
+                                    <input type="text" id="profBal" class="form-control" readonly style="font-weight: 700; color: var(--primary-blue);">
+                                </div>
+                                <div class="form-group">
+                                    <label>Registered Mobile Terminal</label>
+                                    <input type="text" id="profPhone" class="form-control editable-field" readonly>
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>Operational Transaction Cap (INR)</label>
+                                    <input type="text" id="profLimit" class="form-control" readonly value="₹ 5,00,000 (Standard Tier)">
+                                </div>
                             </div>
                         </div>
 
@@ -432,7 +452,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Vault Mixed Denomination Output Guide</label>
-                                <div id="denomFeedback" style="font-size: 14px; font-weight: 600; color: var(--primary-blue); padding-top: 12px; font-style: normal;">
+                                <div id="denomFeedback" style="font-size: 14px; font-weight: 600; color: var(--primary-blue); padding-top: 12px;">
                                     Awaiting allocation sequence input parameters.
                                 </div>
                             </div>
@@ -471,7 +491,21 @@
                 </div>
 
                 <div id="registrationView" class="view-section card hidden">
-                    <h2>Account Onboarding Portfolio</h2>
+                    <h2>Account Onboarding Portfolio (Clerk Mobile Capture Portal)</h2>
+                    
+                    <div class="mobile-photo-container">
+                        <h3>📱 Mobile-Only Live Camera Photo Capture</h3>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Live camera photo capture is restricted to mobile devices. On mobile, use your camera below to snap a fresh passport photo for onboarding.</p>
+                        <div id="cameraWrapper">
+                            <video id="cameraStream" autoplay playsinline style="width: 100%; max-width: 320px; height: 240px; background: #000; border-radius: 8px; display: none; margin: 0 auto 10px auto;"></video>
+                            <canvas id="photoCanvas" class="hidden"></canvas>
+                            <div id="capturedPhotoPreview" style="margin-bottom: 15px;"></div>
+                            <div id="desktopNotice" class="hidden" style="color: var(--danger-red); font-weight: 600; margin-bottom: 15px;">⚠️ Desktop device detected. Photo uploading and camera capture can only be executed on mobile devices.</div>
+                            <button type="button" class="btn btn-secondary" id="startCamBtn" onclick="startCamera()">Activate Mobile Camera</button>
+                            <button type="button" class="btn hidden" id="snapPhotoBtn" style="background-color: var(--success-green);" onclick="takeSnapshot()">Capture Live Photo</button>
+                        </div>
+                    </div>
+
                     <div class="grid-2">
                         <div class="form-group">
                             <label>1. Legal First Name</label>
@@ -565,7 +599,24 @@
                             <input type="text" id="regNomineeAddress" class="form-control">
                         </div>
                     </div>
-                    <button type="button" class="btn" style="margin-top: 15px;" onclick="handleRegistration()">Generate Core Ledger Account</button>
+                    <button type="button" class="btn" style="margin-top: 15px;" onclick="handleRegistration()">Submit Onboarding for Admin Acceptance</button>
+                </div>
+
+                <div id="approvalQueueView" class="view-section card hidden">
+                    <h2>Pending Admin Approvals Queue</h2>
+                    <p style="margin-bottom: 20px; font-style: italic; color: var(--text-muted);">Review onboarding submissions from clerks, verify mobile photos, and authorize final activation.</p>
+                    <table class="bank-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Mobile Terminal</th>
+                                <th>Account Type</th>
+                                <th>Captured Photo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approvalQueueTableBody"></tbody>
+                    </table>
                 </div>
 
                 <div id="customerRequestView" class="view-section card hidden">
@@ -586,7 +637,15 @@
                     </div>
 
                     <div id="requestKycWorkspace" class="hidden">
-                        <p style="margin-bottom: 20px; font-style: italic; color: var(--text-muted);">Provide certified profile variables below to update identity flags and maximize transaction limits.</p>
+                        <div class="mobile-photo-container">
+                            <h3>📱 Mobile KYC Photo Update</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Update account holder photo via mobile camera capture.</p>
+                            <video id="kycCameraStream" autoplay playsinline style="width: 100%; max-width: 280px; height: 200px; background: #000; border-radius: 8px; display: none; margin: 0 auto 10px auto;"></video>
+                            <canvas id="kycPhotoCanvas" class="hidden"></canvas>
+                            <div id="kycCapturedPreview" style="margin-bottom: 10px;"></div>
+                            <button type="button" class="btn btn-secondary" onclick="startKycCamera()">Activate Mobile Camera</button>
+                            <button type="button" class="btn hidden" id="kycSnapBtn" style="background-color: var(--success-green);" onclick="takeKycSnapshot()">Capture Photo</button>
+                        </div>
                         <div class="grid-2">
                             <div class="form-group">
                                 <label>Account Number</label>
@@ -609,7 +668,7 @@
                                 <input type="text" id="kycAadhar" class="form-control" maxlength="12" placeholder="Enter 12-digit Aadhaar number">
                             </div>
                         </div>
-                        <button type="button" class="btn" style="margin-top: 15px;" onclick="commitBasicKycOptimization()">Update KYC</button>
+                        <button type="button" class="btn" style="margin-top: 15px;" onclick="commitBasicKycOptimization()">Update KYC & Sync All Systems</button>
                     </div>
                 </div>
 
@@ -913,15 +972,16 @@
 
     <script>
         const initialAccounts = {
-            "2512959873": { name: "Vishwak p", phone: "8125332295", balance: 118500, status: "Active", history: [] },
-            "2926467339": { name: "Yashwanth kumar A", phone: "9381564031", balance: 85250, status: "Active", history: [] },
-            "3772831154": { name: "Sai kumar N", phone: "9494952295", balance: 62750, status: "Active", history: [] }
+            "2512959873": { name: "Vishwak p", phone: "8125332295", balance: 118500, status: "Active", history: [], photo: "" },
+            "2926467339": { name: "Yashwanth kumar A", phone: "9381564031", balance: 85250, status: "Active", history: [], photo: "" },
+            "3772831154": { name: "Sai kumar N", phone: "9494952295", balance: 62750, status: "Active", history: [], photo: "" }
         };
         const initialLoans = {
             "L-9901": { account: "2512959873", name: "Vishwak p", type: "Home", amount: 4500000, emis: 120, status: "Active" }
         };
 
         let mockAccounts = {};
+        let mockPendingApprovals = {};
         let mockLoans = {};
         let currentRole = "";
         let isEditMode = false;
@@ -929,6 +989,93 @@
         let currentLoanSubMode = "NEW";
         let activeLoadedLoanId = null;
         let activeDepositContext = null;
+        let currentCapturedPhotoData = "";
+        let currentKycCapturedPhotoData = "";
+        let mediaStream = null;
+        let kycMediaStream = null;
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadVaultFromStorage();
+            if(!isMobileDevice()) {
+                document.getElementById('desktopNotice').classList.remove('hidden');
+                document.getElementById('startCamBtn').classList.add('hidden');
+            }
+        });
+
+        function startCamera() {
+            if(!isMobileDevice()) {
+                alert("Photo capture is restricted to mobile devices only.");
+                return;
+            }
+            const video = document.getElementById('cameraStream');
+            video.style.display = 'block';
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                .then(stream => {
+                    mediaStream = stream;
+                    video.srcObject = stream;
+                    document.getElementById('startCamBtn').classList.add('hidden');
+                    document.getElementById('snapPhotoBtn').classList.remove('hidden');
+                })
+                .catch(err => {
+                    alert("Camera access denied or unavailable: " + err);
+                });
+        }
+
+        function takeSnapshot() {
+            const video = document.getElementById('cameraStream');
+            const canvas = document.getElementById('photoCanvas');
+            canvas.width = 150;
+            canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, 150, 180);
+            currentCapturedPhotoData = canvas.toDataURL('image/png');
+            
+            if(mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+            video.style.display = 'none';
+            document.getElementById('snapPhotoBtn').classList.add('hidden');
+            document.getElementById('capturedPhotoPreview').innerHTML = `<img src="${currentCapturedPhotoData}" style="width:100px; height:120px; border-radius:6px; border:2px solid var(--success-green);"/><br><span style="color:var(--success-green); font-weight:600; font-size:13px;">✓ Photo Captured Successfully</span>`;
+        }
+
+        function startKycCamera() {
+            if(!isMobileDevice()) {
+                alert("Photo capture is restricted to mobile devices only.");
+                return;
+            }
+            const video = document.getElementById('kycCameraStream');
+            video.style.display = 'block';
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                .then(stream => {
+                    kycMediaStream = stream;
+                    video.srcObject = stream;
+                    document.getElementById('kycSnapBtn').classList.remove('hidden');
+                })
+                .catch(err => {
+                    alert("Camera error: " + err);
+                });
+        }
+
+        function takeKycSnapshot() {
+            const video = document.getElementById('kycCameraStream');
+            const canvas = document.getElementById('kycPhotoCanvas');
+            canvas.width = 150;
+            canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, 150, 180);
+            currentKycCapturedPhotoData = canvas.toDataURL('image/png');
+            
+            if(kycMediaStream) {
+                kycMediaStream.getTracks().forEach(track => track.stop());
+            }
+            video.style.display = 'none';
+            document.getElementById('kycSnapBtn').classList.add('hidden');
+            document.getElementById('kycCapturedPreview').innerHTML = `<img src="${currentKycCapturedPhotoData}" style="width:90px; height:110px; border-radius:6px; border:2px solid var(--success-green);"/><br><span style="color:var(--success-green); font-size:12px;">✓ Photo Updated</span>`;
+        }
 
         function generate3DigitAck() {
             return `ACK-${Math.floor(100 + Math.random() * 900)}`;
@@ -964,15 +1111,20 @@
 
         function saveToStorage() {
             localStorage.setItem('bank_mockAccounts', JSON.stringify(mockAccounts));
+            localStorage.setItem('bank_mockPendingApprovals', JSON.stringify(mockPendingApprovals));
             localStorage.setItem('bank_mockLoans', JSON.stringify(mockLoans));
         }
 
         function loadVaultFromStorage() {
             const accs = localStorage.getItem('bank_mockAccounts');
+            const pends = localStorage.getItem('bank_mockPendingApprovals');
             const lns = localStorage.getItem('bank_mockLoans');
 
             if(accs) mockAccounts = JSON.parse(accs);
             else { mockAccounts = initialAccounts; saveToStorage(); }
+
+            if(pends) mockPendingApprovals = JSON.parse(pends);
+            else { mockPendingApprovals = {}; saveToStorage(); }
 
             if(lns) mockLoans = JSON.parse(lns);
             else { mockLoans = initialLoans; saveToStorage(); }
@@ -1014,17 +1166,30 @@
         function handleLogin() {
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
-            if((u === 'admin' && p === 'admin') || (u === 'clerk' && p === 'clerk')) {
-                currentRole = u;
-                document.getElementById('roleDisplay').innerText = currentRole === 'admin' ? "System Admin Terminal" : "Operational Clerk Mode";
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainPortal').classList.remove('hidden');
-                document.getElementById('userBadge').classList.remove('hidden');
-                calculateVaultTotal();
-                updateMetricsDisplay();
+            if(u === 'admin' && p === 'admin') {
+                currentRole = 'admin';
+                document.getElementById('roleDisplay').innerText = "System Admin Terminal";
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.clerk-only').forEach(el => el.classList.remove('hidden'));
+                loginSuccessFlow();
+            } else if(u === 'clerk' && p === 'clerk') {
+                currentRole = 'clerk';
+                document.getElementById('roleDisplay').innerText = "Operational Clerk Mode";
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.clerk-only').forEach(el => el.classList.remove('hidden'));
+                loginSuccessFlow();
             } else {
-                alert("Authentication Failure: Handshake rejected by host interface.");
+                alert("Authentication Failure: Invalid clerk or admin credentials.");
             }
+        }
+
+        function loginSuccessFlow() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainPortal').classList.remove('hidden');
+            document.getElementById('userBadge').classList.remove('hidden');
+            calculateVaultTotal();
+            updateMetricsDisplay();
+            switchView('userEnquiryView');
         }
 
         function logout() {
@@ -1040,12 +1205,15 @@
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
             document.getElementById(viewId).classList.remove('hidden');
             document.getElementById('nav-' + viewId).classList.add('active');
+            if(viewId === 'approvalQueueView') {
+                renderApprovalQueue();
+            }
         }
 
         function searchProfile() {
             const num = document.getElementById('searchAccNum').value.trim();
             if(!num || !mockAccounts[num]) {
-                alert("Lookup Error: Identity record parameters unmapped inside master core database indexes.");
+                alert("Lookup Error: Identity record unmapped inside master core database.");
                 return;
             }
             const acct = mockAccounts[num];
@@ -1053,6 +1221,14 @@
             document.getElementById('profAcc').value = num;
             document.getElementById('profBal').value = `₹ ${acct.balance.toLocaleString('en-IN')}`;
             document.getElementById('profPhone').value = acct.phone;
+            
+            const photoBox = document.getElementById('profilePhotoContainer');
+            if(acct.photo) {
+                photoBox.innerHTML = `<img src="${acct.photo}" style="width:100%; height:100%; object-fit:cover; border-radius:6px;"/>`;
+            } else {
+                photoBox.innerHTML = "No Photo Captured";
+            }
+
             document.getElementById('profileSection').classList.remove('hidden');
             isEditMode = false;
             setFieldsReadOnly(true);
@@ -1262,36 +1438,36 @@
                 return;
             }
 
-            const nextId = Math.floor(4000000000 + Math.random() * 99999999);
-            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
-            const ackCode = generate3DigitAck();
+            if(!currentCapturedPhotoData) {
+                alert("Validation Exception: A passport photo captured from a mobile device is required for onboarding.");
+                return;
+            }
 
-            mockAccounts[nextId] = {
+            const pendingId = `PEND-${Math.floor(1000 + Math.random() * 9000)}`;
+            mockPendingApprovals[pendingId] = {
+                firstName: first,
+                lastName: last,
                 name: `${first} ${last}`,
+                dob: dob,
                 phone: phone,
                 email: email,
                 address: address,
                 type: type,
                 pan: document.getElementById('regPan').value.trim() || "N/A",
-                balance: 0,
+                nationality: nationality,
+                occupation: occupation,
+                fatherName: fatherName,
+                motherName: motherName,
+                photo: currentCapturedPhotoData,
                 nominee: {
                     name: document.getElementById('regNomineeName').value.trim() || "Unspecified",
                     phone: document.getElementById('regNomineePhone').value.trim() || "Unspecified",
                     address: document.getElementById('regNomineeAddress').value.trim() || "Unspecified"
-                },
-                status: "Active",
-                history: [{
-                    timestamp: timestamp,
-                    ack: ackCode,
-                    op: "INITIAL SYSTEM ACCOUNT RECORD GENERATION",
-                    flow: "₹ 0",
-                    post: "₹ 0",
-                    st: "VERIFIED"
-                }]
+                }
             };
 
             saveToStorage();
-            deployTopPageBanner(`<h3>🎉 Core Ledger Account Success Generation Index Portfolio Passed</h3> <p>A new secure isolated profile frame mapped. Generated Master Identification Account Handle Code: <strong>${nextId}</strong> | Acknowledgment Code: <strong>${ackCode}</strong></p>`);
+            deployTopPageBanner(`<h3>⏳ Onboarding Submitted for Admin Acceptance</h3> <p>Reference ID: <strong>${pendingId}</strong>. Sent to Admin pending approval queue.</p>`);
             
             document.getElementById('regFirstName').value = '';
             document.getElementById('regLastName').value = '';
@@ -1308,7 +1484,64 @@
             document.getElementById('regNomineePhone').value = '';
             document.getElementById('regNomineeNationalId').value = '';
             document.getElementById('regNomineeAddress').value = '';
+            document.getElementById('capturedPhotoPreview').innerHTML = '';
+            currentCapturedPhotoData = "";
+            document.getElementById('startCamBtn').classList.remove('hidden');
+        }
+
+        function renderApprovalQueue() {
+            const tbody = document.getElementById('approvalQueueTableBody');
+            tbody.innerHTML = '';
+            const entries = Object.entries(mockPendingApprovals);
+            if(entries.length === 0) {
+                tbody.innerHTML = `<tr><td colspan='5' style='text-align:center; color:var(--text-muted);'>No pending onboarding submissions awaiting acceptance.</td></tr>`;
+                return;
+            }
+            entries.forEach(([id, data]) => {
+                tbody.innerHTML += `<tr>
+                    <td><strong>${data.name}</strong></td>
+                    <td>+91 ${data.phone}</td>
+                    <td>${data.type}</td>
+                    <td><img src="${data.photo}" style="width:40px; height:50px; border-radius:4px; object-fit:cover;"/></td>
+                    <td>
+                        <button class="btn" style="padding: 6px 12px; background:var(--success-green); font-size:13px;" onclick="acceptOnboarding('${id}')">Accept & Create</button>
+                    </td>
+                </tr>`;
+            });
+        }
+
+        function acceptOnboarding(pendingId) {
+            const data = mockPendingApprovals[pendingId];
+            const nextId = Math.floor(4000000000 + Math.random() * 99999999);
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            const ackCode = generate3DigitAck();
+
+            mockAccounts[nextId] = {
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+                type: data.type,
+                pan: data.pan,
+                balance: 0,
+                photo: data.photo,
+                nominee: data.nominee,
+                status: "Active",
+                history: [{
+                    timestamp: timestamp,
+                    ack: ackCode,
+                    op: "ADMIN APPROVED INITIAL ACCOUNT ISSUANCE",
+                    flow: "₹ 0",
+                    post: "₹ 0",
+                    st: "VERIFIED"
+                }]
+            };
+
+            delete mockPendingApprovals[pendingId];
+            saveToStorage();
             updateMetricsDisplay();
+            renderApprovalQueue();
+            alert(`Admin Acceptance Successful!\n\nAccount Number Generated: ${nextId}\nReturned to Clerk for passbook issuance.`);
         }
 
         function switchRequestSubMode(mode) {
@@ -1334,6 +1567,7 @@
                 return;
             }
             const acct = mockAccounts[acc];
+            const photoHtml = acct.photo ? `<img src="${acct.photo}" style="width:100%; height:100%; object-fit:cover; border-radius:4px;"/>` : `Photo Placeholder`;
 
             const win = window.open("", "_blank", "width=800,height=500");
             win.document.write(`
@@ -1345,12 +1579,12 @@
                     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
                     .field { margin-bottom: 10px; }
                     .label { font-weight: bold; }
-                    .photo-box { width: 100px; height: 120px; border: 1px solid #000; position: absolute; right: 20px; top: 80px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; }
+                    .photo-box { width: 100px; height: 130px; border: 1px solid #000; position: absolute; right: 20px; top: 70px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; }
                 </style>
                 </head><body>
                 <div class="passbook-card">
                     <div class="header">DORA BANK OF INDIA</div>
-                    <div class="photo-box">Photo Placeholder</div>
+                    <div class="photo-box">${photoHtml}</div>
                     <div class="grid">
                         <div class="field"><span class="label">Account Number:</span> ${acc}</div>
                         <div class="field"><span class="label">Opening Date:</span> ${new Date().toLocaleDateString()}</div>
@@ -1383,17 +1617,22 @@
             mockAccounts[acc].name = name;
             mockAccounts[acc].phone = phone;
             mockAccounts[acc].email = email;
+            if(currentKycCapturedPhotoData) {
+                mockAccounts[acc].photo = currentKycCapturedPhotoData;
+            }
 
-            logLocalHistory(acc, "BASIC KYC OPTIMIZATION RECORDED", "₹ 0", mockAccounts[acc].balance, ackCode);
+            logLocalHistory(acc, "BASIC KYC & PHOTO OPTIMIZATION RECORDED", "₹ 0", mockAccounts[acc].balance, ackCode);
 
             saveToStorage();
-            alert(`KYC update successful!\n\nAcknowledgment Code: ${ackCode}\nAccount identity parameters finalized.`);
+            alert(`KYC update successful!\n\nAcknowledgment Code: ${ackCode}\nAccount photo and identity parameters synchronized across all systems.`);
 
             document.getElementById('kycAccNum').value = '';
             document.getElementById('kycFullName').value = '';
             document.getElementById('kycPhone').value = '';
             document.getElementById('kycEmail').value = '';
             document.getElementById('kycAadhar').value = '';
+            document.getElementById('kycCapturedPreview').innerHTML = '';
+            currentKycCapturedPhotoData = "";
         }
 
         function calculateVaultTotal() {
@@ -1549,10 +1788,6 @@
         function printAuditReport(type) {
             alert("Generating verification ledger. Data stream routed to printer interface.");
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            loadVaultFromStorage();
-        });
     </script>
 </body>
 </html>
